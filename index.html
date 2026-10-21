@@ -1,0 +1,167 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Тест по платформам программирования</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Open+Sans:wght@400;600&display=swap">
+<style>
+/* Layout: одна колонка 46rem, липкая полоса прогресса сверху, вопросы карточками, итог внизу */
+:root{
+  --bg:#f6f5f3; --surface:#ffffff; --fg:#1a1a1a; --muted:#5d5a56; --line:#d9d7d3;
+  --accent:#0e7dc5; --accent-soft:#d3ebfb; --accent-ink:#ffffff;
+  --ok:#17803d; --ok-soft:#dcf3e3; --bad:#b42318; --bad-soft:#fbe0dd;
+  --head:'Merriweather',Georgia,'Times New Roman',serif;
+  --body:'Open Sans','Segoe UI',system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#16181b; --surface:#202327; --fg:#ececea; --muted:#a3a19c; --line:#3a3d42;
+  --accent:#5db4ee; --accent-soft:#1d3a52; --accent-ink:#0b1a26;
+  --ok:#5fcf86; --ok-soft:#1b3a28; --bad:#ff8a7f; --bad-soft:#442320; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#16181b; --surface:#202327; --fg:#ececea; --muted:#a3a19c; --line:#3a3d42;
+  --accent:#5db4ee; --accent-soft:#1d3a52; --accent-ink:#0b1a26;
+  --ok:#5fcf86; --ok-soft:#1b3a28; --bad:#ff8a7f; --bad-soft:#442320; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 3rem}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.wrap{max-width:46rem;margin:0 auto}
+header.top{padding-top:2rem}
+h1{font-family:var(--head);font-size:clamp(1.5rem,4.5vw,2rem);line-height:1.25;margin:0 0 .5rem;text-wrap:balance}
+.lead{margin:0;color:var(--muted)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:.9rem 0 .7rem;margin-top:1rem}
+.bar-row{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.95rem;font-variant-numeric:tabular-nums}
+.bar-row b{font-weight:600}
+.track{height:.5rem;background:var(--line);border-radius:99px;overflow:hidden;margin-top:.5rem}
+.fill{height:100%;width:0;background:var(--accent);transition:width .25s}
+ol.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:.6rem;padding:1.1rem 1.2rem 1.2rem;scroll-margin-top:6rem}
+.qn{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 .25rem;font-weight:600}
+.qt{font-family:var(--head);font-size:1.12rem;line-height:1.4;margin:0 0 .9rem;text-wrap:balance}
+.opts{display:flex;flex-direction:column;gap:.5rem}
+.opt{display:flex;gap:.75rem;align-items:flex-start;text-align:left;width:100%;font:inherit;color:inherit;background:var(--bg);
+  border:1.5px solid var(--line);border-radius:.5rem;padding:.65rem .8rem;cursor:pointer;min-width:0}
+.opt:hover:not([aria-disabled="true"]){border-color:var(--accent);background:var(--accent-soft)}
+.opt:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.opt[aria-disabled="true"]{cursor:default}
+.ltr{flex:none;width:1.7rem;height:1.7rem;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-weight:600;font-size:.9rem;background:var(--surface)}
+.txt{min-width:0;overflow-wrap:anywhere;padding-top:.1rem}
+.opt.ok{border-color:var(--ok);background:var(--ok-soft)}
+.opt.ok .ltr{background:var(--ok);border-color:var(--ok);color:var(--surface)}
+.opt.bad{border-color:var(--bad);background:var(--bad-soft)}
+.opt.bad .ltr{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.fb{margin:.8rem 0 0;font-weight:600;min-height:1.5em}
+.fb.ok{color:var(--ok)} .fb.bad{color:var(--bad)}
+.result{margin-top:1.5rem;background:var(--surface);border:1px solid var(--line);border-radius:.6rem;padding:1.4rem 1.2rem;scroll-margin-top:6rem}
+.result h2{font-family:var(--head);font-size:1.3rem;margin:0 0 .4rem}
+.score{font-size:2.4rem;font-weight:600;font-variant-numeric:tabular-nums;margin:.2rem 0}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:1rem 0}
+.chip{min-width:2.4rem;text-align:center;padding:.25rem .4rem;border-radius:.4rem;font-size:.9rem;font-weight:600;text-decoration:none;font-variant-numeric:tabular-nums;border:1.5px solid}
+.chip.ok{color:var(--ok);background:var(--ok-soft);border-color:var(--ok)}
+.chip.bad{color:var(--bad);background:var(--bad-soft);border-color:var(--bad)}
+.btn{font:inherit;font-weight:600;background:var(--accent);color:var(--accent-ink);border:0;border-radius:.5rem;padding:.7rem 1.2rem;cursor:pointer}
+.btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.hint{color:var(--muted);font-size:.9rem;margin:1rem 0 0}
+@media (prefers-reduced-motion:reduce){.fill{transition:none}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1>Тест по дисциплине «Платформы программирования»</h1>
+    <p class="lead">25 вопросов, у каждого один верный ответ. После выбора ответа сразу видно, верно ли он выбран. Изменить ответ нельзя.</p>
+    <div class="bar">
+      <div class="bar-row" aria-live="polite"><span>Отвечено <b id="done">0</b> из <b id="total">25</b></span><span>Верно: <b id="right">0</b></span></div>
+      <div class="track" aria-hidden="true"><div class="fill" id="fill"></div></div>
+    </div>
+  </header>
+  <main>
+    <ol class="list" id="list"></ol>
+    <section class="result" id="result" hidden aria-live="polite">
+      <h2>Тест завершён</h2>
+      <p class="score" id="score"></p>
+      <p id="grade" style="margin:0"></p>
+      <div class="chips" id="chips"></div>
+      <button class="btn" id="again" type="button">Пройти заново</button>
+      <p class="hint">Номер вопроса в списке выше ведёт к нему. Красным отмечены вопросы с ошибкой.</p>
+    </section>
+  </main>
+</div>
+
+<script>
+const Q = [{"n": 1, "q": "Что такое платформа программирования?", "o": ["Только операционная система", "Набор инструментов для редактирования кода", "Среда выполнения + системные библиотеки + инструменты разработки", "Язык программирования"], "a": 2}, {"n": 2, "q": "Какая из перечисленных технологий является платформой?", "o": ["Laravel", "Node.js", "React", "Django"], "a": 1}, {"n": 3, "q": "Что такое «фреймворк» простыми словами?", "o": ["Набор утилит для работы с графикой", "Готовый каркас приложения, определяющий его структуру", "Тип компьютерной сети", "Система контроля версий"], "a": 1}, {"n": 4, "q": "Чем фреймворк отличается от библиотеки?", "o": ["Фреймворк всегда больше по размеру", "Это синонимы", "Фреймворк не требует установки", "Фреймворк навязывает структуру приложения и управляет потоком (инверсия управления)"], "a": 3}, {"n": 5, "q": "Какой архитектурный подход предполагает разбиение приложения на множество независимых сервисов?", "o": ["Монолит", "Модульный монолит", "Микросервисы", "Макросервисы"], "a": 2}, {"n": 6, "q": "Что означает аббревиатура MVC в веб-разработке?", "o": ["Model-View-Controller", "Model-View-Component", "Module-View-Controller", "Model-Validator-Controller"], "a": 0}, {"n": 7, "q": "Что такое API?", "o": ["Готовая программа для тестирования", "Интерфейс взаимодействия между программными компонентами", "База данных", "Язык разметки"], "a": 1}, {"n": 8, "q": "Для чего нужен Docker?", "o": ["Для управления базами данных", "Для создания изолированных контейнеров с приложением и его зависимостями", "Для написания кода", "Для контроля версий"], "a": 1}, {"n": 9, "q": "Что такое CI/CD?", "o": ["Среда для написания кода", "Система управления пакетами", "Протокол обмена данными", "Автоматическая сборка, тестирование и развёртывание приложения"], "a": 3}, {"n": 10, "q": "Что делает система управления пакетами (например, npm или Composer)?", "o": ["Автоматически загружает и обновляет сторонние библиотеки", "Сжимает файлы проекта", "Компилирует код в машинный", "Отлаживает код"], "a": 0}, {"n": 11, "q": "Какой язык программирования является интерпретируемым?", "o": ["C++", "Java", "Python", "Assembler"], "a": 2}, {"n": 12, "q": "Что такое «переменная» в программировании?", "o": ["Участок памяти, имеющий имя и хранящий значение", "Команда для вывода данных на экран", "Функция, которая не возвращает результат", "Тип данных для хранения текста"], "a": 0}, {"n": 13, "q": "Что означает аббревиатура HTTP?", "o": ["HyperText Transfer Protocol", "HyperText Transport Pipeline", "High Transfer Text Protocol", "Hyper Transfer Text Protocol"], "a": 0}, {"n": 14, "q": "Какой протокол используется для защищённой передачи данных в интернете?", "o": ["FTP", "HTTP", "HTTPS", "SMTP"], "a": 2}, {"n": 15, "q": "Что такое база данных (SQL)?", "o": ["Хранилище файлов на сервере", "Структурированное хранилище данных с возможностью выполнения запросов", "Программа для рисования диаграмм", "Тип переменной в PHP"], "a": 1}, {"n": 16, "q": "Для чего нужны системы контроля версий (например, Git)?", "o": ["Для ускорения работы компьютера", "Для отслеживания изменений в исходном коде и совместной работы", "Для компиляции программ", "Для автоматического тестирования"], "a": 1}, {"n": 17, "q": "Что означает понятие «клиент-серверная архитектура»?", "o": ["Приложение работает только на одном компьютере", "Одна программа (клиент) запрашивает, другая (сервер) выполняет запросы", "Все данные хранятся на клиенте", "Сервер управляет клиентом без запросов"], "a": 1}, {"n": 18, "q": "Что такое MVC (Model-View-Controller)?", "o": ["Тип базы данных", "Архитектурный паттерн для разделения логики приложения", "Инструмент для сборки проектов", "Протокол передачи данных"], "a": 1}, {"n": 19, "q": "Какой из этих языков чаще всего используется для серверной разработки веб-приложений?", "o": ["HTML", "CSS", "PHP", "SQL (как самостоятельный язык)"], "a": 2}, {"n": 20, "q": "Какая команда используется для клонирования репозитория Git?", "o": ["git commit", "git push", "git clone", "git branch"], "a": 2}, {"n": 21, "q": "Какой инструмент позволяет запускать веб-приложение в изолированном контейнере?", "o": ["VirtualBox", "Git", "Docker", "Composer"], "a": 2}, {"n": 22, "q": "Какой менеджер пакетов используется в экосистеме PHP?", "o": ["npm", "pip", "Composer", "NuGet"], "a": 2}, {"n": 23, "q": "Какая команда Git используется для отправки изменений на удалённый репозиторий?", "o": ["git commit", "git push", "git pull", "git clone"], "a": 1}, {"n": 24, "q": "Какой паттерн использует двустороннее связывание данных (two-way data binding)?", "o": ["MVC", "MVVM", "MVP", "MVT"], "a": 1}, {"n": 25, "q": "Какой инструмент используется для оркестрации контейнеров в промышленной разработке?", "o": ["Docker Compose", "Kubernetes", "Apache", "XAMPP"], "a": 1}];
+const LET = ['А','Б','В','Г'];
+const list = document.getElementById('list');
+const st = Q.map(() => null);   // индекс выбранного ответа
+
+function build(){
+  list.innerHTML = '';
+  Q.forEach((q, qi) => {
+    const li = document.createElement('li');
+    li.className = 'card'; li.id = 'q' + q.n;
+    const opts = q.o.map((t, oi) =>
+      `<button type="button" class="opt" id="q${q.n}-o${oi}" data-q="${qi}" data-o="${oi}">
+         <span class="ltr" aria-hidden="true">${LET[oi]}</span><span class="txt"></span></button>`).join('');
+    li.innerHTML = `<p class="qn">Вопрос ${q.n} из ${Q.length}</p><h2 class="qt"></h2>
+      <div class="opts" role="group" aria-labelledby="q${q.n}-t">${opts}</div>
+      <p class="fb" id="q${q.n}-fb" role="status"></p>`;
+    li.querySelector('.qt').id = 'q' + q.n + '-t';
+    li.querySelector('.qt').textContent = q.q;
+    li.querySelectorAll('.txt').forEach((el, oi) => el.textContent = q.o[oi]);
+    list.appendChild(li);
+  });
+  update();
+}
+
+function pick(qi, oi){
+  if (st[qi] !== null) return;
+  st[qi] = oi;
+  const q = Q[qi], good = oi === q.a;
+  q.o.forEach((_, i) => {
+    const b = document.getElementById(`q${q.n}-o${i}`);
+    b.setAttribute('aria-disabled', 'true');
+  });
+  const chosen = document.getElementById(`q${q.n}-o${oi}`);
+  chosen.classList.add(good ? 'ok' : 'bad');
+  chosen.querySelector('.ltr').textContent = good ? '✓' : '✕';
+  const fb = document.getElementById(`q${q.n}-fb`);
+  fb.className = 'fb ' + (good ? 'ok' : 'bad');
+  fb.textContent = good ? 'Верно' : 'Неверно';
+  update();
+}
+
+function update(){
+  const done = st.filter(v => v !== null).length;
+  const right = st.filter((v, i) => v === Q[i].a).length;
+  document.getElementById('done').textContent = done;
+  document.getElementById('total').textContent = Q.length;
+  document.getElementById('right').textContent = right;
+  document.getElementById('fill').style.width = (done / Q.length * 100) + '%';
+  const res = document.getElementById('result');
+  if (done === Q.length){
+    document.getElementById('score').textContent = right + ' из ' + Q.length;
+    const p = Math.round(right / Q.length * 100);
+    document.getElementById('grade').textContent = 'Правильных ответов: ' + p + '%';
+    document.getElementById('chips').innerHTML = Q.map((q, i) =>
+      `<a class="chip ${st[i] === q.a ? 'ok' : 'bad'}" href="#q${q.n}" data-jump="${q.n}">${q.n}</a>`).join('');
+    const first = res.hidden;
+    res.hidden = false;
+    if (first) setTimeout(() => res.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth', block:'start'}), 600);
+  } else { res.hidden = true; }
+}
+
+list.addEventListener('click', e => {
+  const b = e.target.closest('.opt'); if (!b) return;
+  pick(+b.dataset.q, +b.dataset.o);
+});
+document.getElementById('chips').addEventListener('click', e => {
+  const a = e.target.closest('[data-jump]'); if (!a) return;
+  e.preventDefault();
+  document.getElementById('q' + a.dataset.jump).scrollIntoView({block:'start'});
+});
+document.getElementById('again').addEventListener('click', () => {
+  st.fill(null); build(); window.scrollTo(0, 0);
+});
+build();
+</script>
+
+</body></html>
