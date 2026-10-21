@@ -68,7 +68,7 @@ ol.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;ga
 <div class="wrap">
   <header class="top">
     <h1>Тест по дисциплине «Платформы программирования»</h1>
-    <p class="lead">25 вопросов, у каждого один верный ответ. После выбора ответа сразу видно, верно ли он выбран. Изменить ответ нельзя.</p>
+    <p class="lead">25 вопросов, у каждого один верный ответ. После выбора ответа сразу видно, верно ли он выбран, а при ошибке показан правильный вариант. Изменить ответ нельзя.</p>
     <div class="bar">
       <div class="bar-row" aria-live="polite"><span>Отвечено <b id="done">0</b> из <b id="total">25</b></span><span>Верно: <b id="right">0</b></span></div>
       <div class="track" aria-hidden="true"><div class="fill" id="fill"></div></div>
@@ -79,7 +79,7 @@ ol.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;ga
     <section class="result" id="result" hidden aria-live="polite">
       <h2>Тест завершён</h2>
       <p class="score" id="score"></p>
-      <p id="grade" style="margin:0"></p>
+      <p id="grade" style="margin:0;font-size:1.3rem;font-weight:600"></p>
       <div class="chips" id="chips"></div>
       <button class="btn" id="again" type="button">Пройти заново</button>
       <p class="hint">Номер вопроса в списке выше ведёт к нему. Красным отмечены вопросы с ошибкой.</p>
@@ -123,9 +123,10 @@ function pick(qi, oi){
   const chosen = document.getElementById(`q${q.n}-o${oi}`);
   chosen.classList.add(good ? 'ok' : 'bad');
   chosen.querySelector('.ltr').textContent = good ? '✓' : '✕';
+  if (!good){ const c = document.getElementById(`q${q.n}-o${q.a}`); c.classList.add('ok'); c.querySelector('.ltr').textContent = '✓'; }
   const fb = document.getElementById(`q${q.n}-fb`);
   fb.className = 'fb ' + (good ? 'ok' : 'bad');
-  fb.textContent = good ? 'Верно' : 'Неверно';
+  fb.textContent = good ? 'Верно' : 'Неверно. Правильный ответ: ' + LET[q.a];
   update();
 }
 
@@ -138,9 +139,9 @@ function update(){
   document.getElementById('fill').style.width = (done / Q.length * 100) + '%';
   const res = document.getElementById('result');
   if (done === Q.length){
-    document.getElementById('score').textContent = right + ' из ' + Q.length;
+    document.getElementById('score').textContent = right + ' из ' + Q.length + ' вопросов';
     const p = Math.round(right / Q.length * 100);
-    document.getElementById('grade').textContent = 'Правильных ответов: ' + p + '%';
+    document.getElementById('grade').textContent = 'Правильных ответов: ' + p + '%, ошибок: ' + (Q.length - right);
     document.getElementById('chips').innerHTML = Q.map((q, i) =>
       `<a class="chip ${st[i] === q.a ? 'ok' : 'bad'}" href="#q${q.n}" data-jump="${q.n}">${q.n}</a>`).join('');
     const first = res.hidden;
